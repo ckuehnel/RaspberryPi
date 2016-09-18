@@ -29,6 +29,7 @@ if [ "$(ls $DEVICE)" ]; then
 #       echo $line
        if [ "$(echo $line | grep '$1')" ]; then
           TEMP="$(echo $line | grep '$1' | cut -d ";" -f4)"
+          TEMP=$(echo $TEMP | sed -e 's#,#.#g')
           HUMI="$(echo $line | grep '$1' | cut -d ";" -f12)"
           DATE="$(date +"%d-%m-%Y")"
           HOUR="$(date +"%T")"
