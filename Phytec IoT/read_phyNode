@@ -1,0 +1,40 @@
+#! /bin/bash
+
+#Thingspeak
+api_key="DN620VS3IJ58QCUK"
+
+echo "Read phyNode Sensor Data..."
+
+DATE="$(date +"%d-%m-%Y %H:%M")"
+echo $DATE
+
+read TEMP </home/pi/ble-cc26xx/ble_host_sw/bluepy/bluepy/TEMP 
+#echo "TEMP = $TEMP"
+TEMP="${TEMP//(/}"
+TEMP="${TEMP//)/}"
+AT=$(echo $TEMP | cut -d"," -f1)
+AT=$(echo $AT | cut -c 1-5)
+echo "Ambient  Temperature  = $AT *C"
+IR=$(echo $TEMP | cut -d"," -f2)
+IR=$(echo $IR | cut -c 1-5 )
+echo "InfraRed Temperature  = $IR *C"
+
+read HUMI </home/pi/ble-cc26xx/ble_host_sw/bluepy/bluepy/HUMI
+#echo "HUMI = $HUMI"
+HUMI="${HUMI//(/}"
+HUMI="${HUMI//)/}"
+HT=$(echo $HUMI | cut -d"," -f1)
+HT=$(echo $HT | cut -c 1-5)
+echo "HDC1000  Temperature  = $HT *C"
+
+read PRES </home/pi/ble-cc26xx/ble_host_sw/bluepy/bluepy/PRES
+#echo "PRES = $PRES"
+PRES="${PRES//(/}"
+PRES="${PRES//)/}"
+PT=$(echo $PRES | cut -d"," -f2)
+PT=$(echo $PT | cut -c 1-5 )
+echo "MPL3115A2 Temperature = $PT *C"
+
+curl --data \
+     "api_key=$api_key&field1=$AT&field2=$IR&field3=$HT&field4=$PT" \
+     https://api.thingspeak.com/update > log 2>&1
