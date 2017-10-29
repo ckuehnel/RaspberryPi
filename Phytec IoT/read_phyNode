@@ -1,7 +1,7 @@
 #! /bin/bash
 
 #Thingspeak
-api_key="DN620VS3IJ58QCUK"
+api_key="DN62xxxxIJ58QCUK"
 
 echo "Read phyNode Sensor Data..."
 
